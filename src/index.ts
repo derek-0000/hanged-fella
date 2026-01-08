@@ -8,7 +8,7 @@ import { HangedFella } from "./core/hanged-fella";
 import { slackVerificationMiddleware } from "./core/middleware/slack-verification";
 import { hangedFellaSchema } from "./core/schemas";
 
-const app = new Elysia()
+export default new Elysia()
   .use(slackVerificationMiddleware)
   .post(
     "/slack/events",
