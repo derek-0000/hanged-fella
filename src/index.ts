@@ -11,7 +11,7 @@ import { hangedFellaSchema } from "./core/schemas";
 const app = new Elysia()
   .use(slackVerificationMiddleware)
   .post(
-    "/",
+    "/slack/events",
     async ({ body }) => {
       const { text, user_name: userName } = body;
       const [action, ...rest] = text.split(" ");
