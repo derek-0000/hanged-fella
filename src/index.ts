@@ -170,6 +170,4 @@ export default new Elysia()
   )
   .listen(3000);
 
-console.log(
-  `☕ Hanged Fella is running at ${app.server?.hostname}:${app.server?.port}`
-);
+console.log(`☕ Hanged Fella is running`);
