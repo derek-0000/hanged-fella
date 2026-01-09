@@ -12,6 +12,7 @@ export class HangedFella {
     const normalizedAnswer = answer.trim().toLowerCase();
     for (let i = 0; i < normalizedAnswer.length; i++) {
       const answerCharacter = normalizedAnswer[i];
+      if (answerCharacter === " ") continue;
       const currentCharacter = this.answerMap.get(answerCharacter);
       if (!currentCharacter) {
         this.answerMap.set(answerCharacter, {
@@ -49,12 +50,14 @@ export class HangedFella {
             positions: characterStatus.positions,
             guessed: true,
           });
+
+          const arrGuessProgress = this.guessProgress.split("");
+
           for (const pos of characterStatus.positions) {
-            this.guessProgress =
-              this.guessProgress.substring(0, pos) +
-              character +
-              this.guessProgress.substring(pos + 1);
+            arrGuessProgress[pos] = character;
           }
+
+          this.guessProgress = arrGuessProgress.join("");
         }
       }
 

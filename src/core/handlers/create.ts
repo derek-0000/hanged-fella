@@ -10,9 +10,7 @@ export default async function createController({
 }: Context<{ body: AppSchema }>) {
   const { text, user_name: userName } = body;
 
-  const [answer] = text.split(" ");
-
-  const hangedFella = new HangedFella(answer);
+  const hangedFella = new HangedFella(text);
 
   const { guessProgress } = hangedFella;
 
@@ -20,7 +18,7 @@ export default async function createController({
     const [newGame] = await db
       .insert(games)
       .values({
-        answer,
+        answer: text,
         guessProgress,
         won: false,
       })
