@@ -39,11 +39,12 @@ export class HangedFella {
     progress: string;
     attemptCount?: number;
   } {
-    const currentGuess = this.answerMap.get(guess.trim().toLowerCase());
+    const normalizedGuess = guess.trim().toLowerCase();
+    const currentGuess = this.answerMap.get(normalizedGuess);
 
     if (currentGuess) {
       for (const [character, characterStatus] of this.answerMap.entries()) {
-        if (character === guess) {
+        if (character === normalizedGuess) {
           this.answerMap.set(character, {
             positions: characterStatus.positions,
             guessed: true,
