@@ -20,11 +20,7 @@ export class SlackResponse {
 }
 
 type AppResponses = {
-  createGameSuccess: (
-    gameId: string,
-    user: string,
-    guessProgress: string
-  ) => Blocks;
+  createGameSuccess: (gameId: string, answer: string) => Blocks;
   shareGameSuccess: (
     gameId: string,
     user: string,
@@ -48,17 +44,17 @@ export const APP_RESPONSES: AppResponses = {
       "mrkdwn",
     ],
   ],
-  createGameSuccess: (gameId: string, user: string, progress: string) => [
+  createGameSuccess: (gameId: string, answer: string) => [
     [`*You have created a game of Hanged Fella!*`, "mrkdwn"],
     [`▶️ Game ID: ${gameId}`, "plain_text"],
-    [`▶️ Progress: ${progress}`, "plain_text"],
-    [`_Share this game with_ /hf-share ${gameId}`, "mrkdwn"],
+    [`✅ Answer: ${answer}`, "plain_text"],
+    [`🔷 _Share this game with_ /hf-share ${gameId}`, "mrkdwn"],
   ],
   shareGameSuccess: (gameId: string, user: string, progress: string) => [
     [`*${user} has invited you to play Hanged Fella!*`, "mrkdwn"],
     [`▶️ Game ID: ${gameId}`, "plain_text"],
     [`▶️ Progress: ${progress}`, "plain_text"],
-    [`_Send a guess with:_ /hf-guess ${gameId} $guess`, "mrkdwn"],
+    [`🔷_Send a guess with:_ /hf-guess ${gameId} $guess`, "mrkdwn"],
   ],
   createGameError: [
     [
@@ -67,7 +63,7 @@ export const APP_RESPONSES: AppResponses = {
     ],
   ],
   successfulGuess: (guess: string, progress: string) => [
-    [`The letter *"${guess}"* is in the answer! :tada:`, "mrkdwn"],
+    [`✅The letter *"${guess}"* is in the answer!`, "plain_text"],
     [`▶️ Progress: ${progress}`, "plain_text"],
   ],
   wrongGuess: (guess: string, attempt: number, progress: string) => [
@@ -82,14 +78,14 @@ export const APP_RESPONSES: AppResponses = {
   help: [
     ["*Hanged Fella*", "mrkdwn"],
     [
-      "▶️ /hf-start $answer - Start a new game session with the specified answer.",
+      "🔷 /hf-start $answer - Start a new game session with the specified answer.",
       "plain_text",
     ],
     [
-      "▶️ /hf-guess $gameId $guess - Submit a letter guess for the specified game.",
+      "🔷 /hf-guess $gameId $guess - Submit a letter guess for the specified game.",
       "plain_text",
     ],
-    ["▶️ /hf-help - Display this help message.", "plain_text"],
+    ["🔷 /hf-help - Display this help message.", "plain_text"],
     [
       ":gear: _App developed by eternal_garden at https://github.com/derek-0000/hanged-fella_",
       "mrkdwn",

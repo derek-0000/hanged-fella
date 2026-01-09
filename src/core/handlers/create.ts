@@ -8,7 +8,7 @@ import { SlackResponse } from "../slack-responses";
 export default async function createController({
   body,
 }: Context<{ body: AppSchema }>) {
-  const { text, user_name: userName } = body;
+  const { text } = body;
 
   const hangedFella = new HangedFella(text);
 
@@ -25,7 +25,7 @@ export default async function createController({
       .returning();
 
     return SlackResponse.generateResponse(
-      (r) => r.createGameSuccess(newGame.id, userName, guessProgress),
+      (r) => r.createGameSuccess(newGame.id, text),
       "ephemeral"
     );
   } catch (error) {
