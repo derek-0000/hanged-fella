@@ -5,7 +5,7 @@ import { HangedFella } from "../hanged-fella";
 import { AppSchema } from "../schemas";
 import { SlackResponse } from "../slack-responses";
 
-export default async function startController({
+export default async function createController({
   body,
 }: Context<{ body: AppSchema }>) {
   const { text, user_name: userName } = body;
@@ -26,10 +26,14 @@ export default async function startController({
       })
       .returning();
 
-    return SlackResponse.generateResponse((r) =>
-      r.createGameSuccess(newGame.id, userName, guessProgress)
+    return SlackResponse.generateResponse(
+      (r) => r.createGameSuccess(newGame.id, userName, guessProgress),
+      "ephemeral"
     );
   } catch (error) {
-    return SlackResponse.generateResponse((r) => r.createGameError);
+    return SlackResponse.generateResponse(
+      (r) => r.createGameError,
+      "ephemeral"
+    );
   }
 }

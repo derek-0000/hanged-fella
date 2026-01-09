@@ -80,6 +80,7 @@ export class HangedFella {
           attemptCount: this.attemptCount,
         };
       }
+
       return {
         result: "incorrect",
         progress: this.guessProgress,

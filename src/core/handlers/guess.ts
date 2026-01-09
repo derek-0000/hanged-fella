@@ -18,7 +18,7 @@ export default async function guessController({
   );
 
   if (gameDataError) {
-    return SlackResponse.generateResponse((r) => r.genericError);
+    return SlackResponse.generateResponse((r) => r.genericError, "ephemeral");
   }
 
   const [game] = gameData;
@@ -70,7 +70,7 @@ export default async function guessController({
     );
 
     if (error) {
-      return SlackResponse.generateResponse((r) => r.genericError);
+      return SlackResponse.generateResponse((r) => r.genericError, "ephemeral");
     }
 
     const [updatedGame] = data;
@@ -95,7 +95,7 @@ export default async function guessController({
     );
 
     if (lostGameError) {
-      return SlackResponse.generateResponse((r) => r.genericError);
+      return SlackResponse.generateResponse((r) => r.genericError, "ephemeral");
     }
 
     return SlackResponse.generateResponse((r) => r.loss(answer));
@@ -115,7 +115,7 @@ export default async function guessController({
   );
 
   if (wonGameError) {
-    return SlackResponse.generateResponse((r) => r.genericError);
+    return SlackResponse.generateResponse((r) => r.genericError, "ephemeral");
   }
 
   const [updatedWonGame] = wonGame;
