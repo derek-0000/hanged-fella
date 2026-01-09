@@ -89,7 +89,7 @@ export class HangedFella {
 
       this.attemptCount += 1;
 
-      if (this.attemptCount >= 5) {
+      if (this.attemptCount >= 6) {
         return {
           result: "loss",
           progress: this.guessProgress,
