@@ -13,6 +13,7 @@ export class SlackResponse {
     }));
 
     return {
+      responseType: "in_channel",
       blocks: arrBlocks,
     };
   }
@@ -80,13 +81,6 @@ export const APP_RESPONSES: AppResponses = {
 };
 
 const HANGED_FELLAS = [
-  ` +---+
-  |     |
-        |
-        |
-        |
-        |
-=========`,
   ` +---+
   |     |
   O     |
