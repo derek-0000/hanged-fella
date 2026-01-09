@@ -30,7 +30,6 @@ type AppResponses = {
   wrongGuess: (guess: string, attempt: number) => Array<string>;
   genericError: Array<string>;
   successfulGuess: (guess: string, progress: string) => Array<string>;
-  wrongAction: Array<string>;
   help: Array<string>;
   won: (progress: string) => Array<string>;
   alreadyWon: Array<string>;
@@ -42,34 +41,32 @@ export const APP_RESPONSES: AppResponses = {
     `:trophy: Congratulations! You've won the game! The answer was *"${answer}"*.`,
   ],
   createGameSuccess: (gameId: string, user: string, guessProgress: string) => [
-    `*${user} has sent you a game of Hanged Fella! Game ID: ${gameId}*`,
-    `> Current Progress: ${guessProgress}`,
-    `_Send an answer by using the \`/hangedfella answer ${gameId} "Your guess"\` command!_`,
+    `*${user} has sent you a game of Hanged Fella!*`,
+    `> Game ID: ${gameId}`,
+    `> Progress: ${guessProgress}`,
+    `_Send an answer by using the_ /hf-guess ${gameId} $guess _command!_`,
   ],
   createGameError: [
     ":warning: There was an error creating the game. Please try again later.",
   ],
   successfulGuess: (guess: string, progress: string) => [
-    `:tada: Great job! The letter *"${guess}"* is in the answer!`,
-    `> Current Progress: ${progress}`,
+    `The letter *"${guess}"* is in the answer! :tada:`,
+    `> Progress: ${progress}`,
   ],
   wrongGuess: (guess: string, attempt: number) => [
-    `:x: The letter *"${guess}"* is not in the answer. Try again!`,
+    `:x: The letter *"${guess}"* is not in the answer!`,
     HANGED_FELLAS[attempt],
   ],
   alreadyGuessed: (guess: string) => [
-    `You have already guessed: *"${guess}"*. Try a different one!`,
+    `You have already guessed: *"${guess}"!*`,
   ],
-  genericError: ["An unexpected error occurred. Please try again later."],
-  wrongAction: [
-    "Oomph!. This action does not exist. Use `/hangedfella help` to see available actions.",
-  ],
+  genericError: ["An unexpected error occurred."],
   help: [
-    "*Slack Hanged Man*",
-    '`/hangedfella Start "answer"` - Start a new game session with the specified answer.',
-    '`/hangedfella answer game_id "letter"` - Submit a letter guess for the specified game.',
-    "`/hangedfella help` - Display this help message.",
-    "_App developed by [eternal_garden](https://github.com/derek-0000)_",
+    "*Hanged Fella*",
+    "`/hf-start $answer` - Start a new game session with the specified answer.",
+    "`/hf-guess $gameId $guess` - Submit a letter guess for the specified game.",
+    "`/hf-help` - Display this help message.",
+    "_App developed by (eternal_garden)[https://github.com/derek-0000]_",
   ],
   alreadyWon: [
     `:trophy: This game has already been won! Start a new game to play again.`,
@@ -81,42 +78,42 @@ export const APP_RESPONSES: AppResponses = {
 };
 
 const HANGED_FELLAS = [
-  ` +---+
+  `+---+
   |     |
   O     |
         |
         |
         |
 =========`,
-  ` +---+
+  `+---+
   |     |
   O     |
   |     |
         |
         |
 =========`,
-  ` +---+
+  `+---+
   |     |
   O     |
  /|     |
         |
         |
 =========`,
-  ` +---+
+  `+---+
   |     |
   O     |
  /|\    |
         |
         |
 =========`,
-  ` +---+
+  `+---+
   |     |
   O     |
  /|\    |
  /      |
         |
 =========`,
-  ` +---+
+  `+---+
   |     |
   O     |
  /|\    |
