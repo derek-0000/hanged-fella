@@ -1,4 +1,6 @@
 export default function indexHandler() {
+  const backSlash = String.raw`\ `.replace(" ", "");
+
   return `<!DOCTYPE html>
 <html>
   <head>
@@ -43,14 +45,13 @@ export default function indexHandler() {
   +---+
   |   |
   O   |
- /|\  |
- / \  |
+ /|${backSlash}  |
+ / ${backSlash}  |
       |
 =========
     </pre>
     <p>Play Hanged Fella with others in Slack!</p>
     <a href="https://github.com/derek-0000/hanged-fella">View on GitHub</a>
   </body>
-</html>
-`;
+</html>`;
 }
