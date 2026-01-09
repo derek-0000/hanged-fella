@@ -1,15 +1,8 @@
-<!DOCTYPE html>
+export default function indexHandler() {
+  return `<!DOCTYPE html>
 <html>
   <head>
     <title>Hanged Fella</title>
-    <link
-      rel="icon"
-      type="image/png"
-      href="public/favicon-96x96.png"
-      sizes="96x96"
-    />
-    <link rel="icon" type="image/svg+xml" href="public/favicon.svg" />
-    <link rel="shortcut icon" href="public/favicon.ico" />
     <style>
       body {
         background: #fff;
@@ -59,3 +52,5 @@
     <a href="https://github.com/derek-0000/hanged-fella">View on GitHub</a>
   </body>
 </html>
+`;
+}

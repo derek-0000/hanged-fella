@@ -5,8 +5,10 @@ import { appSchema } from "./core/schemas";
 import guessController from "./core/handlers/guess";
 import shareController from "./core/handlers/share";
 import createController from "./core/handlers/create";
+import indexHandler from "./core/handlers";
 
 export default new Elysia()
+  .get("/", indexHandler)
   .use(slackVerificationMiddleware)
   .post("/slack/events/guess", guessController, appSchema)
   .post("/slack/events/create", createController, appSchema)
