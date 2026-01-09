@@ -7,9 +7,11 @@ import { tryCatch } from "./core/utils/tryCatch";
 import { HangedFella } from "./core/hanged-fella";
 import { slackVerificationMiddleware } from "./core/middleware/slack-verification";
 import { hangedFellaSchema } from "./core/schemas";
+import staticPlugin from "@elysiajs/static";
 
 export default new Elysia()
-  .get("/", () => Bun.file("static/index.html"))
+  .use(staticPlugin())
+  .get("/", () => Bun.file("public/index.html"))
   .use(slackVerificationMiddleware)
   .post(
     "/slack/events",
