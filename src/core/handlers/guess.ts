@@ -55,7 +55,7 @@ export default async function guessController({
     );
 
     return SlackResponse.generateResponse((r) =>
-      r.wrongGuess(guess, game.attempts)
+      r.wrongGuess(guess, game.attempts, progress)
     );
   }
 

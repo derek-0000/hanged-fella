@@ -31,7 +31,7 @@ type AppResponses = {
     guessProgress: string
   ) => Blocks;
   alreadyGuessed: (guess: string) => Blocks;
-  wrongGuess: (guess: string, attempt: number) => Blocks;
+  wrongGuess: (guess: string, attempt: number, progress: string) => Blocks;
   successfulGuess: (guess: string, progress: string) => Blocks;
   won: (answer: string) => Blocks;
   loss: (answer: string) => Blocks;
@@ -70,9 +70,10 @@ export const APP_RESPONSES: AppResponses = {
     [`The letter *"${guess}"* is in the answer! :tada:`, "mrkdwn"],
     [`▶️ Progress: ${progress}`, "plain_text"],
   ],
-  wrongGuess: (guess: string, attempt: number) => [
+  wrongGuess: (guess: string, attempt: number, progress: string) => [
     [`:x: The letter *"${guess}"* is not in the answer!`, "mrkdwn"],
     [HANGED_FELLAS[attempt], "mrkdwn"],
+    [`▶️ Progress: ${progress}`, "plain_text"],
   ],
   alreadyGuessed: (guess: string) => [
     [`You have already guessed: *\"${guess}\"!*`, "mrkdwn"],
@@ -81,16 +82,16 @@ export const APP_RESPONSES: AppResponses = {
   help: [
     ["*Hanged Fella*", "mrkdwn"],
     [
-      "`/hf-start $answer` - Start a new game session with the specified answer.",
-      "mrkdwn",
+      "▶️ /hf-start $answer - Start a new game session with the specified answer.",
+      "plain_text",
     ],
     [
-      "`/hf-guess $gameId $guess` - Submit a letter guess for the specified game.",
-      "mrkdwn",
+      "▶️ /hf-guess $gameId $guess - Submit a letter guess for the specified game.",
+      "plain_text",
     ],
-    ["`/hf-help` - Display this help message.", "mrkdwn"],
+    ["▶️ /hf-help - Display this help message.", "plain_text"],
     [
-      "_App developed by [eternal_garden](https://github.com/derek-0000)_",
+      ":gear: _App developed by eternal_garden at https://github.com/derek-0000/hanged-fella_",
       "mrkdwn",
     ],
   ],
