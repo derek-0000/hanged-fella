@@ -9,6 +9,7 @@ import { slackVerificationMiddleware } from "./core/middleware/slack-verificatio
 import { hangedFellaSchema } from "./core/schemas";
 
 export default new Elysia()
+  .get("/", () => Bun.file("static/index.html"))
   .use(slackVerificationMiddleware)
   .post(
     "/slack/events",
@@ -168,6 +169,6 @@ export default new Elysia()
     },
     hangedFellaSchema
   )
-  .listen(3000);
+  .listen(3003);
 
 console.log(`☕ Hanged Fella is running`);
