@@ -1,21 +1,20 @@
+type TextType = "mrkdwn" | "plain_text";
+type Block = [content: string, type: TextType];
+type Blocks = Block[];
+
 export class SlackResponse {
   static generateResponse(
-    callback: (responses: AppResponses) => Array<string>,
+    callback: (responses: AppResponses) => Blocks,
     type: "in_channel" | "ephemeral" = "in_channel"
   ) {
     const blocks = callback(APP_RESPONSES);
 
-    const arrBlocks = blocks.map((block) => ({
-      type: "section",
-      text: {
-        type: "mrkdwn",
-        text: block,
-      },
-    }));
-
     return {
       response_type: type,
-      blocks: arrBlocks,
+      blocks: blocks.map(([content, textType]) => ({
+        type: "section",
+        text: { type: textType, text: content },
+      })),
     };
   }
 }
@@ -25,67 +24,88 @@ type AppResponses = {
     gameId: string,
     user: string,
     guessProgress: string
-  ) => Array<string>;
-  alreadyGuessed: (guess: string) => Array<string>;
-  createGameError: Array<string>;
-  wrongGuess: (guess: string, attempt: number) => Array<string>;
-  genericError: Array<string>;
-  successfulGuess: (guess: string, progress: string) => Array<string>;
-  help: Array<string>;
-  won: (progress: string) => Array<string>;
-  alreadyWon: Array<string>;
-  loss: (answer: string) => Array<string>;
+  ) => Blocks;
   shareGameSuccess: (
     gameId: string,
     user: string,
     guessProgress: string
-  ) => Array<string>;
+  ) => Blocks;
+  alreadyGuessed: (guess: string) => Blocks;
+  wrongGuess: (guess: string, attempt: number) => Blocks;
+  successfulGuess: (guess: string, progress: string) => Blocks;
+  won: (answer: string) => Blocks;
+  loss: (answer: string) => Blocks;
+  createGameError: Blocks;
+  genericError: Blocks;
+  help: Blocks;
+  alreadyWon: Blocks;
 };
 
 export const APP_RESPONSES: AppResponses = {
   won: (answer: string) => [
-    `:trophy: Congratulations! You've won the game! The answer was *"${answer}"*.`,
+    [
+      `:trophy: Congratulations! You've won the game! The answer was *"${answer}"*.`,
+      "mrkdwn",
+    ],
   ],
-  createGameSuccess: (gameId: string, user: string, guessProgress: string) => [
-    `*You have created a game of Hanged Fella!*`,
-    `> Game ID: ${gameId}`,
-    `> Progress: ${guessProgress}`,
-    `_Share this game with the_ /hf-share ${gameId} _command!_`,
+  createGameSuccess: (gameId: string, user: string, progress: string) => [
+    [`*You have created a game of Hanged Fella!*`, "mrkdwn"],
+    [`▶️ Game ID: ${gameId}`, "plain_text"],
+    [`▶️ Progress: ${progress}`, "plain_text"],
+    [`_Share this game with_ /hf-share ${gameId}`, "mrkdwn"],
   ],
-  shareGameSuccess: (gameId: string, user: string, guessProgress: string) => [
-    `*${user} has invited you to play Hanged Fella!*`,
-    `> Game ID: ${gameId}`,
-    `> Progress: ${guessProgress}`,
-    `_Send a guess by using the_ /hf-guess ${gameId} $guess _command!_`,
+  shareGameSuccess: (gameId: string, user: string, progress: string) => [
+    [`*${user} has invited you to play Hanged Fella!*`, "mrkdwn"],
+    [`▶️ Game ID: ${gameId}`, "plain_text"],
+    [`▶️ Progress: ${progress}`, "plain_text"],
+    [`_Send a guess with:_ /hf-guess ${gameId} $guess`, "mrkdwn"],
   ],
   createGameError: [
-    ":warning: There was an error creating the game. Please try again later.",
+    [
+      ":warning: There was an error creating the game. Please try again later.",
+      "mrkdwn",
+    ],
   ],
   successfulGuess: (guess: string, progress: string) => [
-    `The letter *"${guess}"* is in the answer! :tada:`,
-    `> Progress: ${progress}`,
+    [`The letter *"${guess}"* is in the answer! :tada:`, "mrkdwn"],
+    [`▶️ Progress: ${progress}`, "plain_text"],
   ],
   wrongGuess: (guess: string, attempt: number) => [
-    `:x: The letter *"${guess}"* is not in the answer!`,
-    HANGED_FELLAS[attempt],
+    [`:x: The letter *"${guess}"* is not in the answer!`, "mrkdwn"],
+    [HANGED_FELLAS[attempt], "mrkdwn"],
   ],
   alreadyGuessed: (guess: string) => [
-    `You have already guessed: *"${guess}"!*`,
+    [`You have already guessed: *\"${guess}\"!*`, "mrkdwn"],
   ],
-  genericError: ["An unexpected error occurred."],
+  genericError: [["An unexpected error occurred.", "mrkdwn"]],
   help: [
-    "*Hanged Fella*",
-    "`/hf-start $answer` - Start a new game session with the specified answer.",
-    "`/hf-guess $gameId $guess` - Submit a letter guess for the specified game.",
-    "`/hf-help` - Display this help message.",
-    "_App developed by (eternal_garden)[https://github.com/derek-0000]_",
+    ["*Hanged Fella*", "mrkdwn"],
+    [
+      "`/hf-start $answer` - Start a new game session with the specified answer.",
+      "mrkdwn",
+    ],
+    [
+      "`/hf-guess $gameId $guess` - Submit a letter guess for the specified game.",
+      "mrkdwn",
+    ],
+    ["`/hf-help` - Display this help message.", "mrkdwn"],
+    [
+      "_App developed by [eternal_garden](https://github.com/derek-0000)_",
+      "mrkdwn",
+    ],
   ],
   alreadyWon: [
-    `:trophy: This game has already been won! Start a new game to play again.`,
+    [
+      ":trophy: This game has already been won! Start a new game to play again.",
+      "mrkdwn",
+    ],
   ],
   loss: (answer: string) => [
-    `:skull_and_crossbones: You've lost the game! The correct answer was *"${answer}"*. Better luck next time!`,
-    HANGED_FELLAS[6],
+    [
+      `:skull_and_crossbones: You've lost the game! The correct answer was *"${answer}"*. Better luck next time!`,
+      "mrkdwn",
+    ],
+    [HANGED_FELLAS[5], "mrkdwn"],
   ],
 };
 
