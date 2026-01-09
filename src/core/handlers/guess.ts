@@ -11,7 +11,9 @@ export default async function guessController({
   body,
 }: Context<{ body: AppSchema }>) {
   const { text } = body;
-  const [gameId, guess] = text.split(" ");
+  const [gameId, ...guessArr] = text.split(" ");
+
+  const guess = guessArr.join(" ");
 
   const { data: gameData, error: gameDataError } = await tryCatch(
     db.select().from(games).where(eq(games.id, gameId)).limit(1)

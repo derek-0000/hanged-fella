@@ -3,6 +3,7 @@ export class HangedFella {
     string,
     { positions: Set<number>; guessed: boolean }
   >();
+  private answer = "";
   won = false;
   guessProgress = "";
   attemptCount = 0;
@@ -10,6 +11,7 @@ export class HangedFella {
   constructor(answer: string, progress?: string, attemptCount?: number) {
     if (attemptCount) this.attemptCount = attemptCount;
     const normalizedAnswer = answer.trim().toLowerCase();
+    this.answer = normalizedAnswer;
     for (let i = 0; i < normalizedAnswer.length; i++) {
       const answerCharacter = normalizedAnswer[i];
       if (answerCharacter === " ") continue;
@@ -42,6 +44,22 @@ export class HangedFella {
   } {
     const normalizedGuess = guess.trim().toLowerCase();
     const currentGuess = this.answerMap.get(normalizedGuess);
+
+    if (normalizedGuess.length !== 1) {
+      if (normalizedGuess === this.answer) {
+        this.won = true;
+        return {
+          result: "won",
+          progress: this.guessProgress,
+        };
+      } else {
+        return {
+          result: "incorrect",
+          progress: this.guessProgress,
+          attemptCount: this.attemptCount,
+        };
+      }
+    }
 
     if (currentGuess) {
       for (const [character, characterStatus] of this.answerMap.entries()) {
