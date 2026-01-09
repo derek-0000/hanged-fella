@@ -43,23 +43,8 @@ export class HangedFella {
     attemptCount?: number;
   } {
     const normalizedGuess = guess.trim().toLowerCase();
-    const currentGuess = this.answerMap.get(normalizedGuess);
 
-    if (normalizedGuess.length !== 1) {
-      if (normalizedGuess === this.answer) {
-        this.won = true;
-        return {
-          result: "won",
-          progress: this.guessProgress,
-        };
-      } else {
-        return {
-          result: "incorrect",
-          progress: this.guessProgress,
-          attemptCount: this.attemptCount,
-        };
-      }
-    }
+    const currentGuess = this.answerMap.get(normalizedGuess);
 
     if (currentGuess) {
       for (const [character, characterStatus] of this.answerMap.entries()) {
@@ -92,6 +77,16 @@ export class HangedFella {
         progress: this.guessProgress,
       };
     } else {
+      if (normalizedGuess.length !== 1) {
+        if (normalizedGuess === this.answer) {
+          this.won = true;
+          return {
+            result: "won",
+            progress: this.guessProgress,
+          };
+        }
+      }
+
       this.attemptCount += 1;
 
       if (this.attemptCount >= 6) {
