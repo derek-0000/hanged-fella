@@ -54,7 +54,7 @@ export const APP_RESPONSES: AppResponses = {
     [`*${user} has invited you to play Hanged Fella!*`, "mrkdwn"],
     [`▶️ Game ID: ${gameId}`, "plain_text"],
     [`▶️ Progress: ${progress}`, "plain_text"],
-    [`🔷_Send a guess with:_ /hf-guess ${gameId} $guess`, "mrkdwn"],
+    [`🔷 _Send a guess with:_ /hf-guess ${gameId} $guess`, "mrkdwn"],
   ],
   createGameError: [
     [
@@ -63,7 +63,7 @@ export const APP_RESPONSES: AppResponses = {
     ],
   ],
   successfulGuess: (guess: string, progress: string) => [
-    [`✅The letter *"${guess}"* is in the answer!`, "plain_text"],
+    [`✅ The letter *"${guess}"* is in the answer!`, "mrkdwn"],
     [`▶️ Progress: ${progress}`, "plain_text"],
   ],
   wrongGuess: (guess: string, attempt: number, progress: string) => [
