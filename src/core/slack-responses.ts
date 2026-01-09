@@ -4,13 +4,17 @@ export class SlackResponse {
   ) {
     const blocks = callback(APP_RESPONSES);
 
-    return blocks.map((block) => ({
+    const arrBlocks = blocks.map((block) => ({
       type: "section",
       text: {
         type: "mrkdwn",
         text: block,
       },
     }));
+
+    return {
+      blocks: arrBlocks,
+    };
   }
 }
 
