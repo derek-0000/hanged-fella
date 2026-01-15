@@ -35,7 +35,7 @@ export default async function guessController({
 
   const { answer, guessedLetters, guessProgress } = game;
 
-  if (guessedLetters.includes(guess)) {
+  if (guessedLetters.split(",").includes(guess)) {
     return SlackResponse.generateResponse((r) => r.alreadyGuessed(guess));
   }
 
@@ -83,7 +83,7 @@ export default async function guessController({
   }
 
   if (result === "loss") {
-    const { data: lostGame, error: lostGameError } = await tryCatch(
+    const { error: lostGameError } = await tryCatch(
       db
         .update(games)
         .set({
@@ -93,7 +93,6 @@ export default async function guessController({
           won: false,
         })
         .where(eq(games.id, gameId))
-        .returning()
     );
 
     if (lostGameError) {
