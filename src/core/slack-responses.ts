@@ -78,7 +78,7 @@ export const APP_RESPONSES: AppResponses = {
   help: [
     ["*Hanged Fella*", "mrkdwn"],
     [
-      "🔷 /hf-start $answer - Start a new game session with the specified answer.",
+      "🔷 /hf-create $answer - Start a new game session with the specified answer.",
       "plain_text",
     ],
     [
@@ -87,7 +87,7 @@ export const APP_RESPONSES: AppResponses = {
     ],
     ["🔷 /hf-help - Display this help message.", "plain_text"],
     [
-      ":gear: _App developed by eternal_garden at https://github.com/derek-0000/hanged-fella_",
+      ":gear: App developed by eternal_garden at https://github.com/derek-0000/hanged-fella",
       "mrkdwn",
     ],
   ],
@@ -107,46 +107,58 @@ export const APP_RESPONSES: AppResponses = {
 };
 
 const HANGED_FELLAS = [
-  `+---+
-  |     |
-  O     |
-        |
-        |
-        |
-=========`,
-  `+---+
-  |     |
-  O     |
-  |     |
-        |
-        |
-=========`,
-  `+---+
-  |     |
-  O     |
- /|     |
-        |
-        |
-=========`,
-  `+---+
-  |     |
-  O     |
- /|/    |
-        |
-        |
-=========`,
-  `+---+
-  |     |
-  O     |
- /|/    |
- /      |
-        |
-=========`,
-  `+---+
-  |     |
-  O     |
- /|/    |
- / /    |
-        |
-=========`,
+  `\`\`\`
++---+
+|   |
+O   |
+    |
+    |
+    |
+=========
+\`\`\``,
+  `\`\`\`
++---+
+|   |
+O   |
+|   |
+    |
+    |
+=========
+\`\`\``,
+  `\`\`\`
++---+
+|   |
+O   |
+/|  |
+    |
+    |
+=========
+\`\`\``,
+  `\`\`\`
++---+
+|   |
+O   |
+/|\\  |
+    |
+    |
+=========
+\`\`\``,
+  `\`\`\`
++---+
+|   |
+O   |
+/|\\  |
+/   |
+    |
+=========
+\`\`\``,
+  `\`\`\`
++---+
+|   |
+O   |
+/|\\  |
+/ \\  |
+    |
+=========
+\`\`\``,
 ];
