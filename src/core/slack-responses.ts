@@ -5,7 +5,7 @@ type Blocks = Block[];
 export class SlackResponse {
   static generateResponse(
     callback: (responses: AppResponses) => Blocks,
-    type: "in_channel" | "ephemeral" = "in_channel"
+    type: "in_channel" | "ephemeral" = "in_channel",
   ) {
     const blocks = callback(APP_RESPONSES);
 
@@ -24,7 +24,7 @@ type AppResponses = {
   shareGameSuccess: (
     gameId: string,
     user: string,
-    guessProgress: string
+    guessProgress: string,
   ) => Blocks;
   alreadyGuessed: (guess: string) => Blocks;
   wrongGuess: (guess: string, attempt: number, progress: string) => Blocks;
@@ -107,46 +107,46 @@ export const APP_RESPONSES: AppResponses = {
 };
 
 const HANGED_FELLAS = [
-  `  +---+
-  |   |
-  O   |
-      |
-      |
-      |
+  `       +---+
+        |     |
+       O    |
+      /|\\  |
+      / \\  |
+              |
 =========`,
-  `  +---+
-  |   |
-  O   |
-  |   |
-      |
-      |
+  `       +---+
+        |     |
+       O    |
+      /|\\  |
+      / \\  |
+              |
 =========`,
-  `  +---+
-  |   |
-  O   |
- /|   |
-      |
-      |
+  `       +---+
+        |     |
+       O    |
+      /|\\  |
+      / \\  |
+              |
 =========`,
-  `  +---+
-  |   |
-  O   |
- /|\\  |
-      |
-      |
+  `       +---+
+        |     |
+       O    |
+      /|\\  |
+      / \\  |
+              |
 =========`,
-  `  +---+
-  |   |
-  O   |
- /|\\  |
- /    |
-      |
+  `       +---+
+        |     |
+       O    |
+      /|\\  |
+      / \\  |
+              |
 =========`,
-  `  +---+
-  |   |
-  O   |
- /|\\  |
- / \\  |
-      |
+  `       +---+
+        |     |
+       O    |
+      /|\\  |
+      / \\  |
+              |
 =========`,
 ];
