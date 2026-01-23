@@ -2,6 +2,10 @@ type TextType = "mrkdwn" | "plain_text";
 type Block = [content: string, type: TextType];
 type Blocks = Block[];
 
+function formatProgress(progress: string): string {
+  return progress.replace(/ /g, "   ");
+}
+
 export class SlackResponse {
   static generateResponse(
     callback: (responses: AppResponses) => Blocks,
@@ -53,7 +57,7 @@ export const APP_RESPONSES: AppResponses = {
   shareGameSuccess: (gameId: string, user: string, progress: string) => [
     [`*${user} has invited you to play Hanged Fella!*`, "mrkdwn"],
     [`▶️ Game ID: ${gameId}`, "plain_text"],
-    [`▶️ Progress: ${progress}`, "plain_text"],
+    [`▶️ Progress: ${formatProgress(progress)}`, "plain_text"],
     [`🔷 _Send a guess with:_ /hf-guess ${gameId} $guess`, "mrkdwn"],
   ],
   createGameError: [
@@ -64,7 +68,7 @@ export const APP_RESPONSES: AppResponses = {
   ],
   successfulGuess: (guess: string, progress: string) => [
     [`✅ The letter *"${guess}"* is in the answer!`, "mrkdwn"],
-    [`▶️ Progress: ${progress}`, "plain_text"],
+    [`▶️ Progress: ${formatProgress(progress)}`, "plain_text"],
   ],
   wrongGuess: (guess: string, attempt: number, progress: string) => [
     [`:x: The letter *"${guess}"* is not in the answer!`, "mrkdwn"],
@@ -109,44 +113,44 @@ export const APP_RESPONSES: AppResponses = {
 const HANGED_FELLAS = [
   `+---+---+
         |     |
-       O    |
-      /|\\  |
-      / \\  |
+       O      |
+      /|\\    |
+      / \\    |
               |
-=========`,
+=======`,
   `+---+---+
         |     |
-       O    |
-      /|\\  |
-      / \\  |
+       O      |
+      /|\\    |
+      / \\    |
               |
-=========`,
+=======`,
   `+---+---+
         |     |
-       O    |
-      /|\\  |
-      / \\  |
+       O      |
+      /|\\    |
+      / \\    |
               |
-=========`,
+=======`,
   `+---+---+
         |     |
-       O    |
-      /|\\  |
-      / \\  |
+       O      |
+      /|\\    |
+      / \\    |
               |
-=========`,
+=======`,
   `+---+---+
         |     |
-       O    |
-      /|\\  |
-      / \\  |
+       O      |
+      /|\\    |
+      / \\    |
               |
-=========`,
+=======`,
   `+---+---+
         |     |
-       O    |
-      /|\\  |
-      / \\  |
+       O      |
+      /|\\    |
+      / \\    |
               |
-=========`,
+=======`,
 ];
