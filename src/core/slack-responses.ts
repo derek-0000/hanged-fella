@@ -68,7 +68,7 @@ export const APP_RESPONSES: AppResponses = {
   ],
   wrongGuess: (guess: string, attempt: number, progress: string) => [
     [`:x: The letter *"${guess}"* is not in the answer!`, "mrkdwn"],
-    [HANGED_FELLAS[attempt], "mrkdwn"],
+    [HANGED_FELLAS[attempt], "plain_text"],
     [`▶️ Progress: ${progress}`, "plain_text"],
   ],
   alreadyGuessed: (guess: string) => [
