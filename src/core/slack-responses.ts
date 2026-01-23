@@ -3,7 +3,7 @@ type Block = [content: string, type: TextType];
 type Blocks = Block[];
 
 function formatProgress(progress: string): string {
-  return progress.replace(/ /g, "   ");
+  return progress.replace(/ /g, "  ");
 }
 
 export class SlackResponse {
