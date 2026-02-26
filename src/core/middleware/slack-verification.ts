@@ -1,4 +1,3 @@
-import { Elysia } from "elysia";
 import crypto from "crypto";
 
 const SLACK_SIGNING_SECRET = process.env.SLACK_SIGNING_SECRET;
@@ -7,49 +6,50 @@ if (!SLACK_SIGNING_SECRET) {
   throw new Error("SLACK_SIGNING_SECRET environment variable is required");
 }
 
-export const slackVerificationMiddleware = new Elysia({
-  name: "slack-verification",
-})
-  .derive(async ({ request }) => {
-    const rawBody = await request.clone().text();
-    return { rawBody };
-  })
-  .onBeforeHandle(async ({ request, rawBody, set }) => {
-    const timestamp = request.headers.get("X-Slack-Request-Timestamp");
-    const slackSignature = request.headers.get("X-Slack-Signature");
+type SlackVerificationError = { error: string };
 
-    if (!timestamp || !slackSignature) {
-      set.status = 401;
-      return { error: "Missing Slack signature headers" };
-    }
+export async function verifySlackRequest(
+  request: Request
+): Promise<SlackVerificationError | null> {
+  const timestamp = request.headers.get("X-Slack-Request-Timestamp");
+  const slackSignature = request.headers.get("X-Slack-Signature");
 
-    const currentTime = Math.floor(Date.now() / 1000);
-    if (Math.abs(currentTime - parseInt(timestamp)) > 60 * 5) {
-      set.status = 401;
-      return { error: "Request timestamp is too old" };
-    }
+  if (!timestamp || !slackSignature) {
+    return { error: "Missing Slack signature headers" };
+  }
 
-    const sigBasestring = `v0:${timestamp}:${rawBody}`;
+  const parsedTimestamp = Number(timestamp);
+  if (!Number.isInteger(parsedTimestamp)) {
+    return { error: "Invalid request timestamp" };
+  }
 
-    const mySignature =
-      "v0=" +
-      crypto
-        .createHmac("sha256", SLACK_SIGNING_SECRET)
-        .update(sigBasestring)
-        .digest("hex");
+  const currentTime = Math.floor(Date.now() / 1000);
+  if (Math.abs(currentTime - parsedTimestamp) > 60 * 5) {
+    return { error: "Request timestamp is too old" };
+  }
 
-    try {
-      const isValid = crypto.timingSafeEqual(
-        Buffer.from(mySignature),
-        Buffer.from(slackSignature)
-      );
+  const rawBody = await request.clone().text();
+  const sigBasestring = `v0:${timestamp}:${rawBody}`;
 
-      if (!isValid) {
-        set.status = 401;
-        return { error: "Invalid Slack signature" };
-      }
-    } catch {
-      set.status = 401;
+  const mySignature =
+    "v0=" +
+    crypto
+      .createHmac("sha256", SLACK_SIGNING_SECRET as string)
+      .update(sigBasestring)
+      .digest("hex");
+
+  try {
+    const isValid = crypto.timingSafeEqual(
+      Buffer.from(mySignature),
+      Buffer.from(slackSignature)
+    );
+
+    if (!isValid) {
       return { error: "Invalid Slack signature" };
     }
-  });
+  } catch {
+    return { error: "Invalid Slack signature" };
+  }
+
+  return null;
+}
